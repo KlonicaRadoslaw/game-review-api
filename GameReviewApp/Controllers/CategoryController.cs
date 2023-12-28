@@ -32,7 +32,7 @@ namespace GameReviewApp.Controllers
         }
 
         [HttpGet("{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(Category))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         [ProducesResponseType(400)]
         public IActionResult getCategoryById(int categoryId)
         {
@@ -45,6 +45,23 @@ namespace GameReviewApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(category);
+        }
+
+        [HttpGet("games/{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Game>))]
+        [ProducesResponseType(400)]
+        public IActionResult getGamesByCategoryId(int categoryId) 
+        {
+            if(!_categoryRepository.CategoriesExists(categoryId))
+                return NotFound();
+
+            var games = _mapper.Map<List<GameDto>>(
+                _categoryRepository.GetGameByCategory(categoryId));
+
+            if(!ModelState.IsValid) 
+                return BadRequest(ModelState); 
+
+            return Ok(games);
         }
     }
 }

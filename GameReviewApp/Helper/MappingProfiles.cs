@@ -10,6 +10,8 @@ namespace GameReviewApp.Helper
         {
             CreateMap<Game, GameDto>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<Country, CountryDto>();
+            CreateMap<Producer, ProducerDto>();
         }
     }
 }
