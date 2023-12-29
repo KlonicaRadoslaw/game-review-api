@@ -12,10 +12,14 @@ namespace GameReviewApp.Controllers
     public class ProducerController: Controller
     {
         private readonly IProducerRepository _producerRepository;
+        private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;
-        public ProducerController(IProducerRepository producerRepository, IMapper mapper)
+        public ProducerController(IProducerRepository producerRepository, 
+            ICountryRepository countryRepository, 
+            IMapper mapper)
         {
             _producerRepository = producerRepository;
+            _countryRepository = countryRepository;
             _mapper = mapper;
         }
 
@@ -61,6 +65,40 @@ namespace GameReviewApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(producer);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCategory([FromQuery] int countryId, [FromBody] ProducerDto producerCreate)
+        {
+            if (producerCreate == null)
+                return BadRequest(ModelState);
+
+            var producer = _producerRepository.GetProducers()
+                .Where(c => c.LastName.Trim().ToUpper() == producerCreate.LastName.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (producer != null)
+            {
+                ModelState.AddModelError("", "Producer already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var producerMap = _mapper.Map<Producer>(producerCreate);
+
+            producerMap.Country = _countryRepository.getCountryById(countryId);
+
+            if (!_producerRepository.CreateProducer(producerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly created");
         }
     }
 }

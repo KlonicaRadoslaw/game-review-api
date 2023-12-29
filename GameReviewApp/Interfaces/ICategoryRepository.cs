@@ -8,5 +8,7 @@ namespace GameReviewApp.Interfaces
         Category GetCategory(int id);
         ICollection<Game> GetGameByCategory(int categoryId);
         bool CategoriesExists(int id);
+        bool CreateCategory(Category category);
+        bool Save();
     }
 }

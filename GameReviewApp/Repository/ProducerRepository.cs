@@ -11,6 +11,13 @@ namespace GameReviewApp.Repository
         {
             _context = context;
         }
+
+        public bool CreateProducer(Producer producer)
+        {
+            _context.Add(producer); 
+            return Save();
+        }
+
         public ICollection<Game> GetGameByProducer(int producerid)
         {
             return _context.GamesProducers.Where(g => g.Producer.Id == producerid).Select(g => g.Game).ToList();
@@ -34,6 +41,12 @@ namespace GameReviewApp.Repository
         public bool ProducerExists(int producerid)
         {
             return _context.Producers.Any(p => p.Id == producerid);
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

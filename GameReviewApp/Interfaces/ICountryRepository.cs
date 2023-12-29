@@ -9,5 +9,7 @@ namespace GameReviewApp.Interfaces
         Country getCountryByProducer(int producerId);
         ICollection<Country> GetProducersFromACountry(int countryId);
         bool CountryExists(int id);
+        bool CreateCountry(Country country);
+        bool Save();
     }
 }

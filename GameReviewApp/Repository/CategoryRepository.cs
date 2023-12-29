@@ -31,5 +31,18 @@ namespace GameReviewApp.Repository
         {
             return _context.GamesCategories.Where(g => g.CategoryId == categoryId).Select(x => x.Game).ToList();
         }
+
+        public bool CreateCategory(Category category)
+        {
+            _context.Add(category);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
