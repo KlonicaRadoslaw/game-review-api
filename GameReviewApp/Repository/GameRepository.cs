@@ -13,6 +13,34 @@ namespace GameReviewApp.Repository
             _context = context;
         }
 
+        public bool CreateGame(int producerId, int categoryId, Game game)
+        {
+            var gameProducerEntity = _context.Producers
+                .Where(p => p.Id == producerId)
+                .FirstOrDefault();
+            var category = _context.Categories
+                .Where(c => c.Id == categoryId)
+                .FirstOrDefault();
+            var gameProducer = new GameProducer()
+            {
+                Producer = gameProducerEntity,
+                Game = game,
+            };
+
+            _context.Add(gameProducer);
+
+            var gameCategory = new GameCategory()
+            {
+                Category = category,
+                Game = game,
+            };
+
+            _context.Add(gameCategory);
+            _context.Add(game);
+
+            return Save();
+        }
+
         public bool GameExists(int gameId)
         {
             return _context.Games.Any(g => g.Id == gameId);
@@ -32,6 +60,12 @@ namespace GameReviewApp.Repository
         public ICollection<Game> GetGames()
         {
             return _context.Games.OrderBy(g => g.Id).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

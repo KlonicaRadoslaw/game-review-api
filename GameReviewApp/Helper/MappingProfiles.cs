@@ -9,6 +9,7 @@ namespace GameReviewApp.Helper
         public MappingProfiles() 
         {
             CreateMap<Game, GameDto>();
+            CreateMap<GameDto, Game>();
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<Country, CountryDto>();
@@ -16,7 +17,9 @@ namespace GameReviewApp.Helper
             CreateMap<Producer, ProducerDto>();
             CreateMap<ProducerDto, Producer>();
             CreateMap<Review, ReviewDto>();
+            CreateMap<ReviewDto, Review>();
             CreateMap<Reviewer, ReviewerDto>();
+            CreateMap<ReviewerDto, Reviewer>();
         }
     }
 }

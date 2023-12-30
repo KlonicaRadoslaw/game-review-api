@@ -2,6 +2,7 @@
 using GameReviewApp.Dto;
 using GameReviewApp.Interfaces;
 using GameReviewApp.Models;
+using GameReviewApp.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -48,17 +49,37 @@ namespace GameReviewApp.Controllers
             return Ok(game);
         }
 
-        /*[HttpGet("{gameTitle}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Game>))]
+        [HttpPost]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult getGameByName(string gameTitle)
+        public IActionResult CreateGame([FromQuery] int producerId, [FromQuery] int categoryId, [FromBody] GameDto gameCreate)
         {
-            var game = _gameRepository.getGameByName(gameTitle);
+            //Aby przekazać odpowiednie parametry, należy stworzyć osobną klasę np. ProducerRequest i tam umieścić odpowienie rzeczy
+            if (gameCreate == null)
+                return BadRequest(ModelState);
+
+            var games = _gameRepository.GetGames()
+                .Where(c => c.Title.Trim().ToUpper() == gameCreate.Title.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (games != null)
+            {
+                ModelState.AddModelError("", "Game already exists");
+                return StatusCode(422, ModelState);
+            }
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(game);
-        }*/
+            var gameMap = _mapper.Map<Game>(gameCreate);
+
+            if (!_gameRepository.CreateGame(producerId, categoryId, gameMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfuly created");
+        }
     }
 }

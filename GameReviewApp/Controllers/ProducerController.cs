@@ -72,6 +72,7 @@ namespace GameReviewApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult CreateCategory([FromQuery] int countryId, [FromBody] ProducerDto producerCreate)
         {
+            //Aby przekazać odpowiednie parametry, należy stworzyć osobną klasę np. ProducerRequest i tam umieścić odpowienie rzeczy
             if (producerCreate == null)
                 return BadRequest(ModelState);
 
