@@ -129,5 +129,25 @@ namespace GameReviewApp.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("{producerId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteProducer(int producerId)
+        {
+            if (!_producerRepository.ProducerExists(producerId))
+                return NotFound();
+
+            var producerToDelete = _producerRepository.GetProducerById(producerId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_producerRepository.DeleteProducer(producerToDelete))
+                ModelState.AddModelError("", "Something went wrong while deleting producer");
+
+            return NoContent();
+        }
     }
 }

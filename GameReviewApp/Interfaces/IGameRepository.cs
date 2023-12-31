@@ -10,6 +10,7 @@ namespace GameReviewApp.Interfaces
         bool GameExists(int id);
         bool CreateGame(int producerId, int categoryId, Game game);
         bool UpdateGame(int producerId, int categoryId, Game game);
+        bool DeleteGame(Game game);
         bool Save();
         
 

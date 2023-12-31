@@ -13,6 +13,7 @@ namespace GameReviewApp.Controllers
     public class GameController: Controller
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
         public GameController(IGameRepository gameRepository,
@@ -20,6 +21,7 @@ namespace GameReviewApp.Controllers
             IMapper mapper) 
         {
             _gameRepository= gameRepository;
+            _reviewRepository = reviewRepository;
             _mapper = mapper;
         }
 
@@ -112,6 +114,30 @@ namespace GameReviewApp.Controllers
                 ModelState.AddModelError("", "Something went wrong while updating game");
                 return StatusCode(500, ModelState);
             }
+            return NoContent();
+        }
+
+        [HttpDelete("{gameId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteGame(int gameId)
+        {
+            if (!_gameRepository.GameExists(gameId))
+                return NotFound();
+
+            var reviewsToDelete = _reviewRepository.GetReviewsOfAGame(gameId);
+            var gameToDelete = _gameRepository.getGameById(gameId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
+                ModelState.AddModelError("", "Something went wrong while deleting reviews");
+
+            if (!_gameRepository.DeleteGame(gameToDelete))
+                ModelState.AddModelError("", "Something went wrong while deleting game");
+
             return NoContent();
         }
     }

@@ -11,6 +11,7 @@ namespace GameReviewApp.Interfaces
         bool ProducerExists(int producerid);
         bool CreateProducer(Producer producer);
         bool UpdateProducer(Producer producer);
+        bool DeleteProducer(Producer producer);
         bool Save();
     }
 }

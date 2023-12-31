@@ -1,4 +1,5 @@
 ﻿using GameReviewApp.Models;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace GameReviewApp.Interfaces
 {
@@ -10,6 +11,8 @@ namespace GameReviewApp.Interfaces
         bool ReviewExists(int reviewId);
         bool CreateReview(Review review);
         bool UpdateReview(Review review);
+        bool DeleteReview(Review review);
+        bool DeleteReviews(List<Review> reviews);
         bool Save();
     }
 }

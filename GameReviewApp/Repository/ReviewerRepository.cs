@@ -18,6 +18,12 @@ namespace GameReviewApp.Repository
             return Save();
         }
 
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            _context.Remove(reviewer);
+            return Save();
+        }
+
         public Reviewer GetReviewerById(int reviewerId)
         {
             return _context.Reviewer.Where(r => r.Id == reviewerId).FirstOrDefault();

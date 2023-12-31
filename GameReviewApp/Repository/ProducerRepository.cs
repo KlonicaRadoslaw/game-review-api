@@ -18,6 +18,12 @@ namespace GameReviewApp.Repository
             return Save();
         }
 
+        public bool DeleteProducer(Producer producer)
+        {
+            _context.Remove(producer);
+            return Save();
+        }
+
         public ICollection<Game> GetGameByProducer(int producerid)
         {
             return _context.GamesProducers.Where(g => g.Producer.Id == producerid).Select(g => g.Game).ToList();
