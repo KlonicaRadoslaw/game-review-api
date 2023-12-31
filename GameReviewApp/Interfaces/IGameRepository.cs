@@ -9,6 +9,7 @@ namespace GameReviewApp.Interfaces
         Game getGameByName(string name);
         bool GameExists(int id);
         bool CreateGame(int producerId, int categoryId, Game game);
+        bool UpdateGame(int producerId, int categoryId, Game game);
         bool Save();
         
 

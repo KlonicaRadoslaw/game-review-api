@@ -10,6 +10,7 @@ namespace GameReviewApp.Interfaces
         ICollection<Game> GetGameByProducer(int producerid);
         bool ProducerExists(int producerid);
         bool CreateProducer(Producer producer);
+        bool UpdateProducer(Producer producer);
         bool Save();
     }
 }

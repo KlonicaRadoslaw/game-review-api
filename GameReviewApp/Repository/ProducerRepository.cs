@@ -48,5 +48,11 @@ namespace GameReviewApp.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateProducer(Producer producer)
+        {
+            _context.Update(producer);
+            return Save();
+        }
     }
 }

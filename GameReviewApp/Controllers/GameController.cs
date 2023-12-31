@@ -15,7 +15,9 @@ namespace GameReviewApp.Controllers
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
 
-        public GameController(IGameRepository gameRepository, IMapper mapper) 
+        public GameController(IGameRepository gameRepository,
+            IReviewRepository reviewRepository,
+            IMapper mapper) 
         {
             _gameRepository= gameRepository;
             _mapper = mapper;
@@ -80,6 +82,37 @@ namespace GameReviewApp.Controllers
             }
 
             return Ok("Successfuly created");
+        }
+
+        [HttpPut("{gameId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateGame(int gameId,
+            [FromQuery] int producerId, 
+            [FromQuery] int categoryId, 
+            [FromBody] GameDto updatedGame)
+        {
+            if (updatedGame == null)
+                return BadRequest(ModelState);
+
+            if (gameId != updatedGame.Id)
+                return BadRequest(ModelState);
+
+            if (!_gameRepository.GameExists(gameId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var gameMap = _mapper.Map<Game>(updatedGame);
+
+            if (!_gameRepository.UpdateGame(producerId, categoryId, gameMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating game");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }

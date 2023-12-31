@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace GameReviewApp.Repository
 {
-    public class GameRepository: IGameRepository
+    public class GameRepository : IGameRepository
     {
         public readonly DataContext _context;
         public GameRepository(DataContext context)
@@ -66,6 +66,12 @@ namespace GameReviewApp.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdateGame(int producerId, int categoryId, Game game)
+        {
+            _context.Update(game);
+            return Save();
         }
     }
 }

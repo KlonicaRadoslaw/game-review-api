@@ -101,5 +101,33 @@ namespace GameReviewApp.Controllers
 
             return Ok("Successfuly created");
         }
+
+        [HttpPut("{producerId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCategory(int producerId, [FromBody] ProducerDto updatedproducer)
+        {
+            if (updatedproducer == null)
+                return BadRequest(ModelState);
+
+            if (producerId != updatedproducer.Id)
+                return BadRequest(ModelState);
+
+            if (!_producerRepository.ProducerExists(producerId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var producerMap = _mapper.Map<Producer>(updatedproducer);
+
+            if (!_producerRepository.UpdateProducer(producerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating producer");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
     }
 }
