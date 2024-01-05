@@ -1,4 +1,5 @@
 ﻿using GameReviewApp.Data;
+using GameReviewApp.Dto;
 using GameReviewApp.Interfaces;
 using GameReviewApp.Models;
 using System.Xml.Linq;
@@ -66,6 +67,12 @@ namespace GameReviewApp.Repository
         public ICollection<Game> GetGames()
         {
             return _context.Games.OrderBy(g => g.Id).ToList();
+        }
+
+        public Game GetGameTrimToUpper(GameDto gameCreate)
+        {
+            return GetGames().Where(c => c.Title.Trim().ToUpper() == gameCreate.Title.TrimEnd().ToUpper())
+               .FirstOrDefault();
         }
 
         public bool Save()

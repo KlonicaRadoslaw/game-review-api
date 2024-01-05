@@ -1,4 +1,5 @@
-﻿using GameReviewApp.Models;
+﻿using GameReviewApp.Dto;
+using GameReviewApp.Models;
 
 namespace GameReviewApp.Interfaces
 {
@@ -7,6 +8,7 @@ namespace GameReviewApp.Interfaces
         ICollection<Game> GetGames();
         Game getGameById(int id);
         Game getGameByName(string name);
+        Game GetGameTrimToUpper(GameDto gameCreate);
         bool GameExists(int id);
         bool CreateGame(int producerId, int categoryId, Game game);
         bool UpdateGame(int producerId, int categoryId, Game game);
