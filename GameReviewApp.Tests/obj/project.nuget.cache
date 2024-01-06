@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Bi6JDn83GcSRASHOL/SsGoJB7B1f/QjiwPNn19WzQ5Fct1opbJKhNS9nz840s9+bw1N4MWgNiQKfpPJaIro47A==",
+  "dgSpecHash": "lwRpONMm3AG2ADz8MeQqdPh7HebsQ2USyCh/Mr84zMQaEZpqAJvtLHFsW4f+JIylsqz4LDXNPVDJ6BCc14EYmw==",
   "success": true,
   "projectFilePath": "G:\\projects\\game-review-api\\GameReviewApp.Tests\\GameReviewApp.Tests.csproj",
   "expectedPackageFiles": [
@@ -17,6 +17,7 @@
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.25\\microsoft.entityframeworkcore.6.0.25.nupkg.sha512",
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.25\\microsoft.entityframeworkcore.abstractions.6.0.25.nupkg.sha512",
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.25\\microsoft.entityframeworkcore.analyzers.6.0.25.nupkg.sha512",
+    "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\6.0.25\\microsoft.entityframeworkcore.inmemory.6.0.25.nupkg.sha512",
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.25\\microsoft.entityframeworkcore.relational.6.0.25.nupkg.sha512",
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.25\\microsoft.entityframeworkcore.sqlserver.6.0.25.nupkg.sha512",
     "C:\\Users\\Radek\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",

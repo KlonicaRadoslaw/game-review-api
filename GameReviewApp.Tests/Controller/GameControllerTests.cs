@@ -45,6 +45,26 @@ namespace GameReviewApp.Tests.Controller
         }
 
         [Fact]
+        public void GameController_GetGameById_ReturnOk()
+        {
+            //Arrange
+            int gameId = 1;
+            var game = A.Fake<Game>();
+            var gameReturned = A.Fake<GameDto>();
+            A.CallTo(() => _gameRepository.GameExists(gameId)).Returns(true);
+            A.CallTo(() => _gameRepository.getGameById(gameId))
+                .Returns(game);
+            var controller = new GameController(_gameRepository, _reviewRepository, _mapper);
+
+            //Act
+            var result = controller.getGameById(gameId);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Fact]
         public void GameController_CreateGame_ReturnOK()
         {
             //Arrange
@@ -64,6 +84,29 @@ namespace GameReviewApp.Tests.Controller
 
             //Assert
             result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void GameController_UpdateGame_ReturnNoContent()
+        {
+            //Arrange
+            int gameId = 1;
+            int producerId = 1;
+            int categoryId = 2;
+            var updatedGame = A.Fake<GameDto>();
+            var gameToBeUpdated = A.Fake<Game>();
+            A.CallTo(() => _gameRepository.GamesHasSameId(gameId,updatedGame.Id)).Returns(true);
+            A.CallTo(() => _gameRepository.GameExists(gameId)).Returns(true);
+            A.CallTo(() => _mapper.Map<Game>(updatedGame)).Returns(gameToBeUpdated);
+            A.CallTo(() => _gameRepository.UpdateGame(producerId,categoryId,gameToBeUpdated)).Returns(true);
+            var controller = new GameController(_gameRepository, _reviewRepository, _mapper);
+
+            //Act
+            var result = controller.UpdateGame(gameId, producerId, categoryId, updatedGame);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(NoContentResult));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace GameReviewApp.Controllers
         }
 
         [HttpGet("{gameId}")]
-        [ProducesResponseType(200,Type=typeof(IEnumerable<Game>))]
+        [ProducesResponseType(200,Type=typeof(Game))]
         [ProducesResponseType(400)]
         public IActionResult getGameById(int gameId) 
         {
@@ -98,7 +98,7 @@ namespace GameReviewApp.Controllers
             if (updatedGame == null)
                 return BadRequest(ModelState);
 
-            if (gameId != updatedGame.Id)
+            if (!_gameRepository.GamesHasSameId(gameId, updatedGame.Id))
                 return BadRequest(ModelState);
 
             if (!_gameRepository.GameExists(gameId))

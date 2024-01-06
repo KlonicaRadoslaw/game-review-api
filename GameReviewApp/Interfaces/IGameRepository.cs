@@ -14,6 +14,7 @@ namespace GameReviewApp.Interfaces
         bool UpdateGame(int producerId, int categoryId, Game game);
         bool DeleteGame(Game game);
         bool Save();
+        bool GamesHasSameId(int gameId1, int gameId2);
         
 
     }

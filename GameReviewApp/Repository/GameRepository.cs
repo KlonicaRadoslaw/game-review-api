@@ -53,6 +53,10 @@ namespace GameReviewApp.Repository
             return _context.Games.Any(g => g.Id == gameId);
         }
 
+        public bool GamesHasSameId(int gameId1, int gameId2)
+        {
+            return gameId1 == gameId2 ? true : false;
+        }
 
         public Game getGameById(int gameId)
         {
