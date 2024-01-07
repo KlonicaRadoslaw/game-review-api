@@ -62,9 +62,7 @@ namespace GameReviewApp.Controllers
             if (gameCreate == null)
                 return BadRequest(ModelState);
 
-            var games = _gameRepository.GetGames()
-                .Where(c => c.Title.Trim().ToUpper() == gameCreate.Title.TrimEnd().ToUpper())
-                .FirstOrDefault();
+            var games = _gameRepository.GetGameTrimToUpper(gameCreate);
 
             if (games != null)
             {
@@ -133,10 +131,16 @@ namespace GameReviewApp.Controllers
                 return BadRequest(ModelState);
 
             if (!_reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
+            {
                 ModelState.AddModelError("", "Something went wrong while deleting reviews");
+                return StatusCode(500, ModelState);
+            }
 
             if (!_gameRepository.DeleteGame(gameToDelete))
+            {
                 ModelState.AddModelError("", "Something went wrong while deleting game");
+                return StatusCode(500, ModelState);
+            }
 
             return NoContent();
         }
